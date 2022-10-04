@@ -1,0 +1,62 @@
+CREATE TABLE IF NOT EXISTS public.review
+(
+    "number" integer NOT NULL,
+    clothing_id integer,
+    "Age" integer,
+    title "char",
+    review_text "char",
+    "Rating" integer,
+    recommend boolean,
+    division_name "char",
+    department "char",
+    class_name "char",
+    PRIMARY KEY ("number")
+);
+
+ALTER TABLE public.review
+    OWNER to postgres;
+
+
+CREATE TABLE "public".dmclass
+(
+  "class" VARCHAR(100)
+, Id_class INT PRIMARY KEY
+);
+
+
+CREATE TABLE "public".dmdepartment
+(
+  "department" VARCHAR(100)
+, Id_department INT PRIMARY KEY
+);
+
+CREATE TABLE "public".dmdivision
+(
+  "division" VARCHAR(100)
+, Id_division INT PRIMARY KEY
+);
+
+CREATE TABLE "public".facttable
+(
+  id_division INT
+, id_department INT
+, id_class INT
+, "avg" DOUBLE PRECISION
+)
+;
+
+SELECT
+	COALESCE(division_name,'Unknown') AS division_name,
+	COALESCE(department,'Unknown') AS department,
+	COALESCE(class_name, 'Unknown') AS class_name,
+	AVG("Rating")
+FROM review
+GROUP BY 1,2,3;
+
+
+SELECT AVG("Rating")
+FROM public.review
+WHERE review.division_name = 'General' AND review.department = 'Dresses' AND review.class_name = 'Dresses'
+GROUP BY review.division_name, review.department, review.class_name;
+
+
